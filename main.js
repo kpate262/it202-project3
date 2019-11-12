@@ -31,10 +31,13 @@ var asty = 200;
 var ufox = 600;
 var ufoy = 400;
 
+var astSpeed = 1;
+var ufoSpeed = 1;
+
 var imgOffset = 50;
 
-var xlowerLimit = 450;
-var xupperLimit = 50;
+var ylowerLimit = 600;
+var yupperLimit = 100;
 
 var lvl = 0;
 var numLives = 0;
@@ -47,7 +50,12 @@ var secondOffset = '0';
 var minOffset = '0';
 var hourOffset = '0';
 
+var score = 0;
+
 function init(){
+  score = 0;
+  astSpeed = 1;
+  ufoSpeed = 1;
   secondOffset = '0';
   minOffset = '0';
   hourOffset = '0';
@@ -101,6 +109,8 @@ function setTimeText(){
   else{
     gameOver();
   }
+
+
 }
 
 function getTime(){
@@ -109,14 +119,14 @@ function getTime(){
 }
 
 $(document).keydown(function(e){
-    if(e.key === "w" || e.key === "ArrowUp"){ if(earthy >= xupperLimit){ earthy -= 50; } }
-    else if(e.key === "s" || e.key === "ArrowDown"){ if(earthy <= xlowerLimit){ earthy += 50; } }
+    if(e.key === "w" || e.key === "ArrowUp"){ if(earthy >= yupperLimit){ earthy -= 50; } }
+    else if(e.key === "s" || e.key === "ArrowDown"){ if(earthy < ylowerLimit-50){ earthy += 50; } }
     console.log(earthy);
 });
 
 function draw() {
-  astx -= 1;
-  ufox -= 1;
+  astx -= astSpeed*(lvl + astSpeed);
+  ufox -= ufoSpeed*(lvl + ufoSpeed);
 
   if(astx < -80){
     astx = 600;
@@ -135,23 +145,38 @@ function draw() {
 
   var lifex = 0;
   for(var j = 0; j < numLives; j++){
-    ctx.drawImage(lives[j], lifex, 550);
+    ctx.drawImage(lives[j], lifex, ylowerLimit);
     lifex += 53;
   }
 
   if(numLives === 0){
+
     gameOver();
   }
 
   ctx.font = "50px Comic Sans MS";
   ctx.fillStyle = "red";
-  ctx.fillText('Lvl: '+ lvl.toString(), 230, 50);
-
-  window.setInterval(getTime(), 1000);
+  ctx.fillText('Lvl: '+ lvl.toString(), 5, yupperLimit-50);
 
   ctx.font = "50px Comic Sans MS";
   ctx.fillStyle = "red";
-  ctx.fillText(hourOffset + ':' + minOffset + ':' + secondOffset, 380, 595);
+  ctx.fillText('Score: '+ score.toString(), c.width-240, yupperLimit-50);
+
+  window.setTimeout(getTime(), 1000);
+
+  if (minute === 30 && hour === 0 && seconds === 1){
+    lvl++;
+  }
+  else if (hour === 1 && minute === 0 && seconds === 1){
+    lvl++;
+  }
+  else if (hour > 1 && minute === 0 && seconds === 1){
+    lvl++;
+  }
+
+  ctx.font = "50px Comic Sans MS";
+  ctx.fillStyle = "red";
+  ctx.fillText(hourOffset + ':' + minOffset + ':' + secondOffset, 380, ylowerLimit+45);
   window.requestAnimationFrame(draw);
 }
 
