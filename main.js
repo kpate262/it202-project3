@@ -1,5 +1,5 @@
-var c = document.getElementById("animationCanvas");
-var ctx = c.getContext("2d");
+var c = 0 ;
+var ctx = 0;
 
 var earth = new Image();
 var asteroid = new Image();
@@ -53,6 +53,8 @@ var hourOffset = '0';
 var score = 0;
 
 function init(){
+  c = document.getElementById("animationCanvas");
+  ctx = c.getContext("2d");
   score = 0;
   astSpeed = 1;
   ufoSpeed = 1;
@@ -63,7 +65,7 @@ function init(){
   minute = 0;
   hour = 0;
   lvl = 0;
-  numLives = 5;
+  numLives = 1;
   earthx = 0;
   earthy = 250;
   window.requestAnimationFrame(draw);
@@ -72,10 +74,23 @@ function init(){
 function gameOver(){
   ctx.font = "50px Comic Sans MS";
   ctx.fillStyle = "red";
-  ctx.fillText('Game Over', c.width-240, yupperLimit-50);
+  ctx.fillText('Game Over', c.width/4, c.height/2);
   ctx.font = "25px Comic Sans MS";
   ctx.fillStyle = "red";
-  ctx.fillText('Press Enter to start again.', c.width-240, yupperLimit-50);
+  ctx.fillText('Press Enter to start again.', c.width/4, (c.height/2 + 50));
+
+  ctx.font = "50px Comic Sans MS";
+  ctx.fillStyle = "red";
+  ctx.fillText('Lvl: '+ lvl.toString(), 5, yupperLimit-50);
+
+  ctx.font = "50px Comic Sans MS";
+  ctx.fillStyle = "red";
+  ctx.fillText('Score: '+ score.toString(), c.width-240, yupperLimit-50);
+
+  ctx.font = "50px Comic Sans MS";
+  ctx.fillStyle = "red";
+  ctx.fillText(hourOffset + ':' + minOffset + ':' + secondOffset, 380, ylowerLimit+45);
+  ctx = null;
 }
 
 function setTimeText(){
@@ -126,13 +141,28 @@ function getTime(){
 $(document).keydown(function(e){
     if(e.key === "w" || e.key === "ArrowUp"){ if(earthy >= yupperLimit){ earthy -= 50; } }
     else if(e.key === "s" || e.key === "ArrowDown"){ if(earthy < ylowerLimit-50){ earthy += 50; } }
-    //else if(e.key === "Enter") { init(); }
+    else if(e.key === "Enter") { if(ctx === null) { init(); } }
     console.log(earthy);
 });
 
 function draw() {
-  astx -= astSpeed*(lvl + astSpeed);
-  ufox -= ufoSpeed*(lvl + ufoSpeed);
+  if(numLives != 0){
+    astx -= astSpeed*(lvl + astSpeed);
+    ufox -= ufoSpeed*(lvl + ufoSpeed);
+  }
+  else{
+    gameOver();
+  }
+
+  if(earthy === asty && (astx >= -75 && astx <= 45)){
+    astx = 600;
+    numLives--;
+  }
+
+  if(earthy === ufoy && (ufox >= -45 && ufox <= 45)){
+    ufox = 600;
+    score++;
+  }
 
   if(astx < -80){
     astx = 600;
@@ -141,6 +171,8 @@ function draw() {
   if(ufox < -50){
     ufox = 600;
   }
+
+
 
   ctx.clearRect(0, 0, c.width, c.height);
   ctx.drawImage(background, 0, 0);
