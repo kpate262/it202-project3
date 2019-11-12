@@ -70,7 +70,12 @@ function init(){
 }
 
 function gameOver(){
-
+  ctx.font = "50px Comic Sans MS";
+  ctx.fillStyle = "red";
+  ctx.fillText('Game Over', c.width-240, yupperLimit-50);
+  ctx.font = "25px Comic Sans MS";
+  ctx.fillStyle = "red";
+  ctx.fillText('Press Enter to start again.', c.width-240, yupperLimit-50);
 }
 
 function setTimeText(){
@@ -121,6 +126,7 @@ function getTime(){
 $(document).keydown(function(e){
     if(e.key === "w" || e.key === "ArrowUp"){ if(earthy >= yupperLimit){ earthy -= 50; } }
     else if(e.key === "s" || e.key === "ArrowDown"){ if(earthy < ylowerLimit-50){ earthy += 50; } }
+    //else if(e.key === "Enter") { init(); }
     console.log(earthy);
 });
 
@@ -150,7 +156,6 @@ function draw() {
   }
 
   if(numLives === 0){
-
     gameOver();
   }
 
