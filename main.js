@@ -105,11 +105,14 @@ const init = () => {
   minute = 0;
   hour = 0;
   lvl = 0;
-  numLives = 5;
+  numLives = 4;
   astx = 600;
   asty = getrandomNum();
   ufox = 600;
   ufoy = getrandomNum();
+  if(asty === ufoy && Math.abs(astx - ufox) < 100){
+    asty = getrandomNum();
+  }
   earthx = 0;
   earthy = getrandomNum();
   window.requestAnimationFrame(draw);
@@ -239,7 +242,7 @@ const draw = () => {
 
   if(astx < -80){
     asty = getrandomNum();
-    if(asty === ufoy && Math.abs(astx - ufox) > 100){
+    if(asty === ufoy && Math.abs(astx - ufox) < 100){
       asty = getrandomNum();
     }
     astx = 600;
@@ -247,7 +250,7 @@ const draw = () => {
 
   if(ufox < -50){
     ufoy = getrandomNum();
-    if(asty === ufoy && Math.abs(astx - ufox) > 100){
+    if(asty === ufoy && Math.abs(astx - ufox) < 100){
       ufoy = getrandomNum();
     }
     ufox = 600;

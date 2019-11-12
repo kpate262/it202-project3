@@ -4,15 +4,30 @@
     <title>Save Planet Earth</title>
   </head>
   <body>
+    <style>
+      .col{
+        width: 20%;
+        float:left;
+      }
+    </style>
     <div>
       <canvas id="animationCanvas" width="600" height="650" style="border:1px solid #000000;">
     </div>
-    <div class="row">
-      <ul style="list-style-type:none;">
-        <li><b>Controls:</b></li>
-        <li>W or Up Arrow: UP</li>
-        <li>W or Down Arrow: Down</li>
-      </ul>
+    <div >
+      <div class="col">
+        <ul style="list-style-type:none; zoom:1; *display: inline; _height: 30px;">
+          <li><b>Controls:</b></li>
+          <li>W or Up Arrow: Moves Earth UP</li>
+          <li>S or Down Arrow: Moves Earth Down</li>
+        </ul>
+      </div>
+      <div class="col">
+        <ul style="list-style-type:none; zoom:1; *display: inline; _height: 30px;">
+          <li><b>Objective:</b></li>
+          <li>Get ufos to score.</li>
+          <li>Stay away from asteroid.</li>
+        </ul>
+      </div>
     </div>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script src="./main.js"></script>
