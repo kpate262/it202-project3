@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Canvas Animation</title>
+  </head>
+  <body>
+    <canvas id="animationCanvas" width="600" height="600" style="border:1px solid #000000;">
+    <script>
+      var c = document.getElementById("animationCanvas");
+      var ctx = c.getContext("2d");
+
+      var earth = new Image();
+      var asteroid = new Image();
+      var ufo = new Image();
+      var background = new Image();
+
+      var life = new Image();
+      life.src = './earth.png';
+      var lives = [];
+
+      for(var i = 0; i < 5; i++){
+        lives.push(life);
+      }
+
+
+      asteroid.src = './asteroid.png';
+      earth.src ='./earth.png';
+      ufo.src = './ufo.png';
+      background.src = './background.png';
+
+
+
+      var earthx = 0;
+      var earthy = 250;
+
+      var astx = 600;
+      var asty = 200;
+
+      var ufox = 600;
+      var ufoy = 400;
+
+      var imgOffset = 50;
+
+      var xlimit = 550;
+
+      var numLives = 0;
+
+      function init(){
+        numLives = 5;
+        earthx = 0;
+        earthy = 250;
+        window.requestAnimationFrame(draw);
+      }
+
+
+      function draw() {
+        // clear the canvas
+        astx -= 1;
+        ufox -= 1;
+
+        if(astx < 0){
+          astx = 600;
+        }
+
+        if(ufox < 0){
+          ufox = 600;
+        }
+
+        ctx.clearRect(0, 0, c.width, c.height);
+        ctx.drawImage(background, 0, 0);
+
+        ctx.drawImage(earth, earthx, earthy);
+        ctx.drawImage(asteroid, astx, asty);
+        ctx.drawImage(ufo, ufox, ufoy);
+
+        var lifex = 0;
+        for(var j = 0; j < numLives; j++){
+          ctx.drawImage(lives[j], lifex, 550);
+          lifex += 53;
+        }
+
+        window.requestAnimationFrame(draw);
+      }
+
+      init();
+    </script>
+  </body>
+
+
+</html>
